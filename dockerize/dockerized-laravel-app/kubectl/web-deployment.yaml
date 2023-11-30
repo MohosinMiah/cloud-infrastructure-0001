@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-laravel-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-laravel-web
+  template:
+    metadata:
+      labels:
+        app: my-laravel-web
+    spec:
+      containers:
+      - name: web
+        image: nginx:alpine
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: my-laravel-app-persistent
+          mountPath: /var/www
+        - name: nginx-config
+          mountPath: /etc/nginx/conf.d/default.conf
+          subPath: default.conf
+      volumes:
+      - name: my-laravel-app-persistent
+        persistentVolumeClaim:
+          claimName: my-laravel-app-persistent-storage
+      - name: nginx-config
+        configMap:
+          name: nginx-config
+
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-laravel-web-service
+spec:
+  selector:
+    app: my-laravel-web
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30080
+  type: NodePort

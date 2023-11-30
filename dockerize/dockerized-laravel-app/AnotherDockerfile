@@ -25,7 +25,7 @@ COPY composer.json composer.lock ./
 RUN composer install --no-scripts --no-autoloader
 
 # Copy the rest of the application
-COPY . .
+COPY . /var/www
 
 # Generate the application key
 RUN php artisan key:generate

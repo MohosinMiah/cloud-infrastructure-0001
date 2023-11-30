@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-laravel-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-laravel-app
+  template:
+    metadata:
+      labels:
+        app: my-laravel-app
+    spec:
+      containers:
+      - name: app
+        image: laravel_app:latest
+        env:
+        - name: DB_HOST
+          value: database
+        - name: DB_PORT
+          value: "3306"
+        - name: DB_DATABASE
+          value: mydatabase
+        - name: DB_USERNAME
+          value: mydatabaseuser
+        - name: DB_PASSWORD
+          value: mypassword
+        volumeMounts:
+        - name: my-laravel-app-persistent
+          mountPath: /var/www
+      volumes:
+      - name: my-laravel-app-persistent
+        persistentVolumeClaim:
+          claimName: my-laravel-app-persistent-storage
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-laravel-app-service
+spec:
+  selector:
+    app: my-laravel-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
