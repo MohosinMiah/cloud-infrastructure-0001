@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-laravel-app
+  name: my-laravel-app-deployment
 spec:
   replicas: 1
   selector:
@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
       - name: app
-        image: laravel_app:latest
+        image: mohosin16103308/laravel-web-app:tagname
+        imagePullPolicy: Always
         env:
         - name: DB_HOST
           value: database
@@ -45,4 +46,5 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
-  type: ClusterIP
+      nodePort: 30082
+  type: NodePort

@@ -38,3 +38,10 @@ mysql -u root -p
 ```
 make use of the password defined inside the `docker-compose.yml` file.
 
+
+# Emaple push to Docker
+docker tag laravel_app:latest mohosin16103308/laravel-web-app:tagname
+docker login
+docker push mohosin16103308/laravel-web-app:tagname
+
+
