@@ -1,7 +1,27 @@
 # Ansible 101 starter file
 
+# How to add SSH file to host server to remote server
+```
+1) First create a key by keygen
+ssh-keygen -t rsa -b 2048 -C "your_email@example.com"
+
+2) Add a ssh copy to the remote server
+ssh-copy-id mohosin@75.127.13.28
+
+```
+# Create inventory.ini
+```
+touch  inventory.ini
+[myhosts]
+75.127.13.28
+```
+
+
 # Create new file and content
 ```
+ansible-playbook -i inventory.ini create_file.yml --ask-become-pass
+
+touch create_file.yml
 ---
 - name: Create a New File
   hosts: 75.127.13.28
