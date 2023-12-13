@@ -1,7 +1,7 @@
 ```
 VPC with 4 subnet and 2 rote and one network connection
 provider "aws" {
-  region = "eu-west-1"  # Replace with your desired AWS region
+  region = "us-east-1"  # Replace with your desired AWS region
 }
 
 resource "aws_vpc" "demo-vpc" {
